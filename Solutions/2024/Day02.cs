@@ -19,22 +19,12 @@ public class Day02
 
     private bool IsSafe(List<int> parsed, bool tolerance = false)
     {
-        int order = Ordering(parsed[0], parsed[1]);
+        int currentOrdering = GetOrdering(parsed[0], parsed[1]);
         for (int i = 0; i < parsed.Count - 1; i++)
         {
-            int diff = Math.Abs(parsed[i] - parsed[i + 1]);
-            if (Ordering(parsed[i], parsed[i + 1]) != order)
-            {
-                if (!tolerance)
-                {
-                    return false;
-                }
-                else
-                {
-                    return IsSafeWithoutElement(parsed, i);
-                }
-            }
-            if (diff < 1 || diff > 3)
+            int x = parsed[i];
+            int y = parsed[i + 1];
+            if (ChangedOrdering(x, y, currentOrdering) || DiffOutOfRange(x, y))
             {
                 if (!tolerance)
                 {
@@ -49,7 +39,7 @@ public class Day02
         return true;
     }
 
-    private int Ordering(int first, int second)
+    private int GetOrdering(int first, int second)
     {
         if (first > second)
         {
@@ -61,6 +51,18 @@ public class Day02
         }
         return -1;
     }
+
+    private bool ChangedOrdering(int first, int second, int currentOrdering)
+    {
+        return currentOrdering != GetOrdering(first, second);
+    }
+
+    private bool DiffOutOfRange(int first, int second)
+    {
+        int diff = Math.Abs(first - second);
+        return diff < 1 || diff > 3;
+    }
+
     private bool IsSafeWithoutElement(List<int> parsed, int i)
     {
         var x = parsed.Where((_, j) => j != i - 1).ToList();
