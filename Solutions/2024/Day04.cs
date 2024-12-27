@@ -9,10 +9,7 @@ public class Day04
         {
             for (int x = 0; x < lines[0].Length; x++)
             {
-                char c = lines[y][x];
-                if (c == 'X')
-                {
-                    (int diffX, int diffY)[] directions = {
+                (int diffX, int diffY)[] directions = {
                         ( -1, 0 ),
                         ( 1, 0 ),
                         ( 0, 1 ),
@@ -22,12 +19,11 @@ public class Day04
                         ( -1, 1 ),
                         ( 1, 1 ),
                     };
-                    foreach (var direction in directions)
+                foreach (var direction in directions)
+                {
+                    if (ContainsSubstring(lines, x, y, direction, "XMAS"))
                     {
-                        if (ContainsSubstring(lines, x + direction.diffX, y + direction.diffY, direction, "MAS"))
-                        {
-                            count++;
-                        }
+                        count++;
                     }
                 }
             }
